@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Artist, Track } from './types';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { filterTracks, removeDupes } from './utils/trackFilters';
 import SearchScreen from './components/SearchScreen';
 import ArtistPage from './components/ArtistPage';
 import BracketPage from './components/BracketPage';
@@ -44,7 +45,7 @@ function App() {
       const response = await fetch(url);
       const data = await response.json();
 
-      const tracks = data.toptracks.track;
+      const tracks = removeDupes(filterTracks(data.toptracks.track));
 
       const shuffled = [...tracks].sort(() => 0.5 - Math.random());
       const selectedForBracket = shuffled.slice(0, 8);
