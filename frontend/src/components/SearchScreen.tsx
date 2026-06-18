@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { Artist } from "../types";
 
 interface SearchScreenProps {
@@ -5,7 +6,7 @@ interface SearchScreenProps {
     setSearchQuery: (query: string) => void;
     handleSearch: (e: React.SubmitEvent) => void;
     dummyArtists: Artist[];
-    handleSelectArtist: (artist: Artist) => void;
+    setSelectedArtist: (artist: Artist) => void;
 }
 
 export default function SearchScreen({
@@ -13,8 +14,15 @@ export default function SearchScreen({
     setSearchQuery,
     handleSearch,
     dummyArtists,
-    handleSelectArtist,
+    setSelectedArtist,
 }: SearchScreenProps) {
+    const navigate = useNavigate();
+
+    const onSelectArtist = (artist: Artist) => {
+        setSelectedArtist(artist);
+        navigate(`/artist/${encodeURIComponent(artist.name)}`);
+    };
+
     return (
         <div className='view-container'>
             <h1>Find an Artist</h1>
@@ -35,7 +43,7 @@ export default function SearchScreen({
                 {dummyArtists.map((artist) => (
                 <button
                     key={artist.id}
-                    onClick={() => handleSelectArtist(artist)}
+                    onClick={() => onSelectArtist(artist)}
                 >
                     {artist.name}
                 </button>

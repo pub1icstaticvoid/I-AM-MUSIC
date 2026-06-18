@@ -1,26 +1,33 @@
-import type { ViewState } from "../App";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import type { Artist } from "../types";
 
 interface ArtistPageProps {
-    setCurrentView: (screen: ViewState) => void;
     selectedArtist: Artist | null;
     handleStartBracket: () => void;
 }
 
 export default function ArtistPage({
-    setCurrentView,
     selectedArtist,
     handleStartBracket
 }: ArtistPageProps) {
+    const navigate = useNavigate();
+    const { artistName } = useParams();
+
+    const onStartBracket = () => {
+        handleStartBracket();
+        navigate(`/bracket/${encodeURIComponent(artistName || "")}`);
+    };
+
     return (
         <div className='view-container'>
-            <button onClick={() => setCurrentView("search")}>&larr; Back to Search</button>
-            <h2>{selectedArtist?.name}</h2>
+            <Link to="/" className="back-button">&larr; Back to Search</Link>
+
+            <h2>{selectedArtist?.name || artistName}</h2>
             <p>Select an option:</p>
 
             <div className='options-grid'>
                 <button
-                    onClick={handleStartBracket}
+                    onClick={onStartBracket}
                 >
                     Madness Bracket
                 </button>

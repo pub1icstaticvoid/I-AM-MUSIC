@@ -1,19 +1,27 @@
+import { useNavigate } from "react-router-dom";
 import type { Artist, Track } from "../types";
 
 interface BracketPageProps {
-    handleReset: () => void;
+    resetState: () => void;
     selectedArtist: Artist | null;
     bracketSongs: Track[];
 }
 
 export default function BracketPage({
-    handleReset,
+    resetState,
     selectedArtist,
     bracketSongs, 
 }: BracketPageProps) {
+    const navigate = useNavigate();
+
+    const onStartOver = () => {
+        resetState();
+        navigate("/");
+    };
+
     return (
         <div className='view-container'>
-            <button onClick={handleReset}>Start Over</button>
+            <button onClick={onStartOver}>Start Over</button>
             <h2>{selectedArtist?.name} - Madness Bracket</h2>
 
             <div className='bracket-placeholder'>
