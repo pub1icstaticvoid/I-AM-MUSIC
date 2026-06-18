@@ -3,7 +3,7 @@ import type { Artist } from "../types";
 
 interface ArtistPageProps {
     selectedArtist: Artist | null;
-    handleStartBracket: () => void;
+    handleStartBracket: (artistName: string) => void;
 }
 
 export default function ArtistPage({
@@ -14,7 +14,8 @@ export default function ArtistPage({
     const { artistName } = useParams();
 
     const onStartBracket = () => {
-        handleStartBracket();
+        const targetArtist = artistName || selectedArtist?.name || "";
+        handleStartBracket(targetArtist);
         navigate(`/bracket/${encodeURIComponent(artistName || "")}`);
     };
 

@@ -9,13 +9,9 @@ import './App.css';
 const DUMMY_ARTISTS: Artist[] = [
   { id: "1", name: "Hatsune Miku" },
   { id: "2", name: "JPEGMAFIA" },
-  { id: "3", name: "kessoku band" }
+  { id: "3", name: "kessoku band" },
+  { id: "4", name: "Death Grips" }
 ];
-
-const DUMMY_TRACKS: Track[] = Array.from( { length: 20 }, (_, i) => ({
-  id: `t${i}`,
-  name: `Dummy Song ${i + 1}`
-}));
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,11 +24,10 @@ function App() {
     console.log(`searching  last.fm for: ${searchQuery}`);
   };
 
-  const handleStartBracket = () => {
-    const shuffled = [...DUMMY_TRACKS].sort(() => 0.5 - Math.random());
-    const selectedForBracket = shuffled.slice(0, 8);
+  const handleStartBracket = async (artistName: string) => {
+    const tracks = await fetchArtistTracks(artistName);
 
-    setBracketSongs(selectedForBracket);
+    setBracketSongs(tracks);
   };
 
   const resetState = () => {
@@ -40,6 +35,27 @@ function App() {
     setselectedArtist(null);
     setBracketSongs([]);
   };
+
+  const fetchArtistTracks = async (artistName: string) => {
+    const API_KEY = import.meta.env.VITE_API_KEY;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artistName)}&api_key=${API_KEY}&limit=500&format=json`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const tracks = data.toptracks.track;
+
+      const shuffled = [...tracks].sort(() => 0.5 - Math.random());
+      const selectedForBracket = shuffled.slice(0, 8);
+
+      return selectedForBracket;
+    }
+    catch (error) {
+      console.error("failed to fetch tracks: ", error);
+      return [];
+    }
+  }
 
   return (
     <BrowserRouter>
