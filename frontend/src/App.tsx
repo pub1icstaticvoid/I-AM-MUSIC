@@ -11,7 +11,9 @@ const DUMMY_ARTISTS: Artist[] = [
   { id: "1", name: "Hatsune Miku" },
   { id: "2", name: "JPEGMAFIA" },
   { id: "3", name: "kessoku band" },
-  { id: "4", name: "Death Grips" }
+  { id: "4", name: "Death Grips" },
+  { id: "5", name: "Injury Reserve" },
+  { id: "6", name: "Kanye West" }
 ];
 
 function App() {
@@ -39,7 +41,7 @@ function App() {
 
   const fetchArtistTracks = async (artistName: string) => {
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artistName)}&api_key=${API_KEY}&limit=500&format=json`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${encodeURIComponent(artistName)}&api_key=${API_KEY}&limit=250&format=json`;
 
     try {
       const response = await fetch(url);

@@ -5,6 +5,7 @@ const FILTER_KEYWORDS = [
     "live at",
     "- live ver.",
     "instrumental",
+    "review"
 ];
 
 export const filterTracks = (tracks: Track[]): Track[] => {
