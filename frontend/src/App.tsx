@@ -41,7 +41,7 @@ function App() {
 
   const fetchArtistTracks = async (artistName: string) => {
     const API_KEY = import.meta.env.VITE_API_KEY;
-    const limit = 20;
+    const limit = 25;
     const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${encodeURIComponent(artistName)}&api_key=${API_KEY}&limit=${limit}&format=json`;
 
     try {
@@ -54,7 +54,7 @@ function App() {
 
       const maxPlaycount = parseInt(topAlbums[0].playcount, 10);
 
-      const dynamicThreshold = maxPlaycount * 0.0000005;
+      const dynamicThreshold = maxPlaycount * 0.05;
       const popularityThreshold = Math.max(dynamicThreshold, 200);
 
       topAlbums = topAlbums.filter((album: any) => {
@@ -88,7 +88,7 @@ function App() {
       const tracks = removeDupes(filterTracks(allTracks));
 
       const shuffled = [...tracks].sort(() => 0.5 - Math.random());
-      const selectedForBracket = shuffled.slice(0, 8);
+      const selectedForBracket = shuffled.slice(0, 16);
 
       return selectedForBracket;
     }

@@ -1,0 +1,22 @@
+.bracket-layout {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: "2rem";
+    overflow-x: auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+.bracket {
+    flex-shrink: 0;
+    min-width: 300px;
+}
+
+@media (min-width: 1200px) {
+    .bracket-layout {
+        justify-content: center;
+    }
+}
