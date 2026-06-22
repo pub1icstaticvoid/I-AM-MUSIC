@@ -54,8 +54,8 @@ function App() {
 
       const maxPlaycount = parseInt(topAlbums[0].playcount, 10);
 
-      const dynamicThreshold = maxPlaycount * 0.001;
-      const popularityThreshold = Math.max(dynamicThreshold, 1000);
+      const dynamicThreshold = maxPlaycount * 0.0000005;
+      const popularityThreshold = Math.max(dynamicThreshold, 200);
 
       topAlbums = topAlbums.filter((album: any) => {
         const playcount = parseInt(album.playcount, 10);
