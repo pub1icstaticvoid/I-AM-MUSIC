@@ -74,7 +74,7 @@ export default function BlindRankPage({ resetState, selectedArtist, blindRankSon
 
     return (
         <div className="view-container">
-            <div className="back-buttons-div">
+            <div className="back-buttons-div" style={{ display: "flex", justifyContent: "center", marginBottom: "1rem", gap: "10px" }}>
                 <Link to={`/artist/${encodeURIComponent(artistName || "")}`} className="back-button">
                     &larr; Back to Artist Options
                 </Link>
@@ -97,11 +97,21 @@ export default function BlindRankPage({ resetState, selectedArtist, blindRankSon
                     <div 
                         className="active-song-card"
                         onClick={handleReroll}
+                        style={{
+                            cursor: "pointer",
+                            display: "inline-block",
+                        }}
                     >
                         <img 
                             className="card-img"
                             src={currentSong?.imageUrl || ""}
                             alt={currentSong?.name}
+                            style={{
+                                width: "150px",
+                                height: "150px",
+                                objectFit: "cover",
+                                borderRadius: "8px"
+                            }}
                         />
                         <h3>
                             {currentSong?.name}
@@ -114,7 +124,7 @@ export default function BlindRankPage({ resetState, selectedArtist, blindRankSon
                 )}
             </div>
 
-            <div className="ranking-slots">
+            <div className="ranking-slots" style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "400px", margin: "0 auto" }}>
                 {slots.map((track, index) => (
                     <div
                         className="slot"
@@ -125,11 +135,17 @@ export default function BlindRankPage({ resetState, selectedArtist, blindRankSon
                         onDragOver={handleDragOver}
                         onDrop={(e) => {handleDrop(e, index)}}
                         style={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "10px",
+                            border: "2px solid #333",
+                            borderRadius: "8px",
+                            minHeight: "50px",
                             cursor: track ? "grab" : "pointer",
                             backgroundColor: track ? "#222" : "transparent",
                         }}
                     >
-                        <span className="index">
+                        <span className="index" style={{ fontWeight: "bold", width: "20px", padding: "10px", }}>
                             {index + 1}
                         </span>
                         {track ? (
@@ -138,8 +154,15 @@ export default function BlindRankPage({ resetState, selectedArtist, blindRankSon
                                     className="ranking-img"
                                     src={track.imageUrl || ""}
                                     alt={track.name}
+                                    style={{
+                                        width: "40px",
+                                        height: "40px",
+                                        objectFit: "cover",
+                                        borderRadius: "4px",
+                                        gap: "10px"
+                                    }}
                                 />
-                                <span>
+                                <span style={{ padding: "10px" }}>
                                     {track.name}
                                 </span>
                             </>

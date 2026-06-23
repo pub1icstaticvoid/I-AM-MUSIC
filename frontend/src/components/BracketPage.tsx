@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bracket, Seed, SeedItem, SeedTeam, type IRenderSeedProps } from "react-brackets";
-import "./BracketPage.css";
 import type { Artist, Track } from "../types";
 
 interface BracketPageProps {
