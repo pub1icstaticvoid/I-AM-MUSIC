@@ -5,22 +5,15 @@ import { filterTracks, removeDupes } from './utils/trackFilters';
 import SearchScreen from './components/SearchScreen';
 import ArtistPage from './components/ArtistPage';
 import BracketPage from './components/BracketPage';
+import BlindRankPage from './components/BlindRankPage';
 import './App.css';
-
-const DUMMY_ARTISTS: Artist[] = [
-  { id: "1", name: "Joji" },
-  { id: "2", name: "JPEGMAFIA" },
-  { id: "3", name: "clipping." },
-  { id: "4", name: "Death Grips" },
-  { id: "5", name: "Injury Reserve" },
-  { id: "6", name: "Kanye West" }
-];
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Artist[]>([]);
   const [selectedArtist, setselectedArtist] = useState<Artist | null>(null);
   const [bracketSongs, setBracketSongs] = useState<Track[]>([]);
+  const [blindRankSongs, setBlindRankSongs] = useState<Track[]>([]);
 
   const handleSearch = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -54,18 +47,25 @@ function App() {
   };
 
   const handleStartBracket = async (artistName: string) => {
-    const tracks = await fetchArtistTracks(artistName);
+    const tracks = await fetchArtistTracks(artistName, 16);
 
     setBracketSongs(tracks);
+  };
+
+  const handleStartBlindRank = async (artistName: string) => {
+    const tracks = await fetchArtistTracks(artistName, Infinity);
+
+    setBlindRankSongs(tracks);
   };
 
   const resetState = () => {
     setSearchQuery("");
     setselectedArtist(null);
     setBracketSongs([]);
+    setBlindRankSongs([]);
   };
 
-  const fetchArtistTracks = async (artistName: string) => {
+  const fetchArtistTracks = async (artistName: string, count: number = 16) => {
     const API_KEY = import.meta.env.VITE_API_KEY;
     const limit = 25;
     const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${encodeURIComponent(artistName)}&api_key=${API_KEY}&limit=${limit}&format=json`;
@@ -102,19 +102,28 @@ function App() {
       detailedAlbums.forEach((album) => {
         if (!album || !album.tracks || !album.tracks.track) return;
 
+        const albumImageObj = album.image?.find((img: any) => img.size === "extralarge") || album.image?.[album.image.length - 1];
+        const albumImageUrl = albumImageObj?.["#text"] || "";
+
         const tracks = Array.isArray(album.tracks.track)
           ? album.tracks.track
           : [album.tracks.track];
 
+        const formattedTracks: Track[] = tracks.map((t: any) => ({
+          id: t.url || t.name,
+          name: t.name,
+          imageUrl: albumImageUrl
+        }));
+
         if (tracks.length >= 5) {
-          allTracks = [...allTracks, ...tracks];
+          allTracks = [...allTracks, ...formattedTracks];
         }
       });
 
       const tracks = removeDupes(filterTracks(allTracks));
 
       const shuffled = [...tracks].sort(() => 0.5 - Math.random());
-      const selectedForBracket = shuffled.slice(0, 16);
+      const selectedForBracket = shuffled.slice(0, count);
 
       return selectedForBracket;
     }
@@ -143,6 +152,7 @@ function App() {
           element={<ArtistPage 
             selectedArtist={selectedArtist}
             handleStartBracket={handleStartBracket}
+            handleStartBlindRank={handleStartBlindRank}
           />}
         />
 
@@ -152,6 +162,15 @@ function App() {
             resetState={resetState}
             selectedArtist={selectedArtist}
             bracketSongs={bracketSongs}
+          />}
+        />
+
+        <Route
+          path='/blind-rank/:artistName'
+          element={<BlindRankPage 
+            resetState={resetState}
+            selectedArtist={selectedArtist}
+            blindRankSongs={blindRankSongs}
           />}
         />
       </Routes>

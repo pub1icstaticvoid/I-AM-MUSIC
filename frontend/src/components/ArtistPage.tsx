@@ -4,11 +4,13 @@ import type { Artist } from "../types";
 interface ArtistPageProps {
     selectedArtist: Artist | null;
     handleStartBracket: (artistName: string) => void;
+    handleStartBlindRank: (artistName: string) => void;
 }
 
 export default function ArtistPage({
     selectedArtist,
-    handleStartBracket
+    handleStartBracket,
+    handleStartBlindRank
 }: ArtistPageProps) {
     const navigate = useNavigate();
     const { artistName } = useParams();
@@ -16,7 +18,13 @@ export default function ArtistPage({
     const onStartBracket = () => {
         const targetArtist = artistName || selectedArtist?.name || "";
         handleStartBracket(targetArtist);
-        navigate(`/bracket/${encodeURIComponent(artistName || "")}`);
+        navigate(`/bracket/${encodeURIComponent(targetArtist)}`);
+    };
+
+    const onStartBlindRank = () => {
+        const targetArtist = artistName || selectedArtist?.name || "";
+        handleStartBlindRank(targetArtist);
+        navigate(`/blind-rank/${encodeURIComponent(targetArtist)}`);
     };
 
     return (
@@ -27,11 +35,14 @@ export default function ArtistPage({
             <p>Select an option:</p>
 
             <div className='options-grid'>
-                <button
-                    onClick={onStartBracket}
-                >
+                <button onClick={onStartBracket}>
                     Madness Bracket
                 </button>
+
+                <button onClick={onStartBlindRank}>
+                    Blind Ranking
+                </button>
+
                 <button disabled>
                     More options coming soon...
                 </button>

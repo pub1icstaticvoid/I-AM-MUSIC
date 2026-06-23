@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./SearchScreen.css";
 import type { Artist } from "../types";
 
 interface SearchScreenProps {

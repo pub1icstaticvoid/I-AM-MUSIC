@@ -24,4 +24,5 @@ export interface Artist {
 export interface Track {
   id: string;
   name: string;
+  imageUrl?: string;
 }

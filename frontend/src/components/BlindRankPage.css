@@ -1,0 +1,48 @@
+.back-buttons-div {
+    display: "flex";
+    justify-content: "center";
+    margin-bottom: "1rem";
+    gap: "10px";
+}
+
+.slot {
+    display: "flex";
+    align-items: "center";
+    padding: "10px";
+    border: "2px solid #333";
+    border-radius: "8px";
+    min-height: "50px";
+}
+
+.index {
+    font-weight: "bold";
+    width: "20px";
+    padding: "10px";
+}
+
+.card-img {
+    width: "150px";
+    height: "150px";
+    object-fit: "cover";
+    border-radius: "8px";
+}
+
+.active-song-card {
+    cursor: "pointer";
+    display: "inline-block";
+}
+
+.ranking-slots {
+    display: "flex";
+    flex-direction: "column";
+    gap: "10px";
+    max-width: "400px";
+    margin: "0 auto";
+}
+
+.ranking-img {
+    width: "40px";
+    height: "40px";
+    object-fit: "cover";
+    border-radius: "4px";
+}
