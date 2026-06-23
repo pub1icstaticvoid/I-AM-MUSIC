@@ -18,6 +18,7 @@ export interface Round {
 export interface Artist {
   id: string;
   name: string;
+  imageUrl?: string;
 }
 
 export interface Track {

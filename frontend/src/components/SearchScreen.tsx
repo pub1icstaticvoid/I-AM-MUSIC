@@ -5,7 +5,7 @@ interface SearchScreenProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
     handleSearch: (e: React.SubmitEvent) => void;
-    dummyArtists: Artist[];
+    searchResults: Artist[];
     setSelectedArtist: (artist: Artist) => void;
 }
 
@@ -13,7 +13,7 @@ export default function SearchScreen({
     searchQuery,
     setSearchQuery,
     handleSearch,
-    dummyArtists,
+    searchResults,
     setSelectedArtist,
 }: SearchScreenProps) {
     const navigate = useNavigate();
@@ -39,14 +39,23 @@ export default function SearchScreen({
             </form>
 
             <div className='results-list'>
-                <h3>Dummy results:</h3>
-                {dummyArtists.map((artist) => (
-                <button
-                    key={artist.id}
-                    onClick={() => onSelectArtist(artist)}
-                >
-                    {artist.name}
-                </button>
+                {searchResults.length > 0 && <h3>Search Results:</h3>}
+
+                {searchResults.map((artist, index) => (
+                    <button
+                        key={artist.id || index}
+                        onClick={() => onSelectArtist(artist)}
+                        className="artist-result-btn"
+                    >
+                        {artist.imageUrl && (
+                            <img
+                                src={artist.imageUrl}
+                                alt={`${artist.name} profile`}
+                                className="artist-thumbnail"
+                            />
+                        )}
+                        <span>{artist.name}</span>
+                    </button>
                 ))}
             </div>
         </div>

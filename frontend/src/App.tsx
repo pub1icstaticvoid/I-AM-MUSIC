@@ -18,13 +18,39 @@ const DUMMY_ARTISTS: Artist[] = [
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Artist[]>([]);
   const [selectedArtist, setselectedArtist] = useState<Artist | null>(null);
   const [bracketSongs, setBracketSongs] = useState<Track[]>([]);
 
-  const handleSearch = (e: React.SubmitEvent) => {
+  const handleSearch = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    // fetch from last.fm here
-    console.log(`searching  last.fm for: ${searchQuery}`);
+    if (!searchQuery.trim()) return;
+
+    const API_KEY = import.meta.env.VITE_API_KEY;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&format=json&limit=10`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const artists = data.results?.artistmatches?.artist;
+      if (!artists) return;
+
+      const formattedResults: Artist[] = artists.map((a: any) => {
+        const imageObj = a.image?.find((img: any) => img.size === "extralarge") || a.image?.[a.image.length - 1];
+
+        return {
+          id: a.mbid || a.name,
+          name: a.name,
+          imageUrl: imageObj?.["#text"] || ""
+        };
+      });
+
+      setSearchResults(formattedResults);
+    }
+    catch (error) {
+      console.error("failed to search last.fm:", error);
+    }
   };
 
   const handleStartBracket = async (artistName: string) => {
@@ -107,7 +133,7 @@ function App() {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             handleSearch={handleSearch}
-            dummyArtists={DUMMY_ARTISTS}
+            searchResults={searchResults}
             setSelectedArtist={setselectedArtist}
           />}
         />
