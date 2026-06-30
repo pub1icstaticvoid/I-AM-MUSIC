@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import type { Artist, Track } from './types';
+import type { Artist, Track, Album } from './types';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { filterTracks, removeDupes } from './utils/trackFilters';
 import SearchScreen from './components/SearchScreen';
 import ArtistPage from './components/ArtistPage';
 import BracketPage from './components/BracketPage';
 import BlindRankPage from './components/BlindRankPage';
+import SoundsLikePage from './components/SoundsLikePage';
 import './App.css';
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
   const [selectedArtist, setselectedArtist] = useState<Artist | null>(null);
   const [bracketSongs, setBracketSongs] = useState<Track[]>([]);
   const [blindRankSongs, setBlindRankSongs] = useState<Track[]>([]);
+  const [gridAlbums, setGridAlbums] = useState<Album[]>([]);
+  const [gridTracks, setGridTracks] = useState<Track[]>([]);
 
   const handleSearch = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -58,12 +61,52 @@ function App() {
     setBlindRankSongs(tracks);
   };
 
+  const handleStartSoundsLike = async (artistName: string) => {
+    const [albums, tracks] = await Promise.all([
+      fetchArtistAlbums(artistName),
+      fetchArtistTracks(artistName, Infinity)
+    ])
+
+    setGridAlbums(albums);
+    setGridTracks(tracks);
+  }
+
   const resetState = () => {
     setSearchQuery("");
     setselectedArtist(null);
     setBracketSongs([]);
     setBlindRankSongs([]);
+    setGridAlbums([]);
+    setGridTracks([]);
   };
+
+  const fetchArtistAlbums = async (artistName: string, limit: number = 25) => {
+    const API_KEY = import.meta.env.VITE_API_KEY;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${encodeURIComponent(artistName)}&api_key=${API_KEY}&limit=${limit}&format=json`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!data.topalbums || !data.topalbums.album) return [];
+
+      const formattedAlbums: Album[] = data.topalbums.album.map((album: any) => {
+        const imageObj = album.image?.find((img: any) => img.size === 'extralarge') || album.image?.[album.image.length - 1];
+
+        return {
+          id: album.mbid || album.name,
+          name: album.name,
+          imageUrl: imageObj?.['#text'] || ''
+        };
+      });
+
+      return formattedAlbums;
+    }
+    catch (error) {
+      console.error("Failed to fetch albums: ", error);
+      return [];
+    }
+  }
 
   const fetchArtistTracks = async (artistName: string, count: number = 16) => {
     const API_KEY = import.meta.env.VITE_API_KEY;
@@ -112,7 +155,8 @@ function App() {
         const formattedTracks: Track[] = tracks.map((t: any) => ({
           id: t.url || t.name,
           name: t.name,
-          imageUrl: albumImageUrl
+          imageUrl: albumImageUrl,
+          albumName: album.name
         }));
 
         if (tracks.length >= 5) {
@@ -153,6 +197,7 @@ function App() {
             selectedArtist={selectedArtist}
             handleStartBracket={handleStartBracket}
             handleStartBlindRank={handleStartBlindRank}
+            handleStartSoundsLike={handleStartSoundsLike}
           />}
         />
 
@@ -171,6 +216,15 @@ function App() {
             resetState={resetState}
             selectedArtist={selectedArtist}
             blindRankSongs={blindRankSongs}
+          />}
+        />
+        <Route
+          path='/sounds-like/:artistName'
+          element={<SoundsLikePage
+            resetState={resetState}
+            selectedArtist={selectedArtist}
+            gridAlbums={gridAlbums}
+            gridTracks={gridTracks}
           />}
         />
       </Routes>

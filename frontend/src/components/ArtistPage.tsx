@@ -5,12 +5,14 @@ interface ArtistPageProps {
     selectedArtist: Artist | null;
     handleStartBracket: (artistName: string) => void;
     handleStartBlindRank: (artistName: string) => void;
+    handleStartSoundsLike: (artistName: string) => void;
 }
 
 export default function ArtistPage({
     selectedArtist,
     handleStartBracket,
-    handleStartBlindRank
+    handleStartBlindRank,
+    handleStartSoundsLike
 }: ArtistPageProps) {
     const navigate = useNavigate();
     const { artistName } = useParams();
@@ -27,6 +29,12 @@ export default function ArtistPage({
         navigate(`/blind-rank/${encodeURIComponent(targetArtist)}`);
     };
 
+    const onStartSoundsLike = () => {
+        const targetArtist = artistName || selectedArtist?.name || "name";
+        handleStartSoundsLike(targetArtist);
+        navigate(`/sounds-like/${encodeURIComponent(targetArtist)}`)
+    }
+
     return (
         <div className='view-container'>
             <Link to="/" className="back-button">&larr; Back to Search</Link>
@@ -41,6 +49,10 @@ export default function ArtistPage({
 
                 <button onClick={onStartBlindRank}>
                     Blind Ranking
+                </button>
+
+                <button onClick={onStartSoundsLike}>
+                    It's On, Sounds Like Grid
                 </button>
 
                 <button disabled>

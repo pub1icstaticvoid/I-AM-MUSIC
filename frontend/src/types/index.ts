@@ -25,4 +25,11 @@ export interface Track {
   id: string;
   name: string;
   imageUrl?: string;
+  albumName: string;
+}
+
+export interface Album {
+  id: string;
+  name: string;
+  imageUrl?: string;
 }
