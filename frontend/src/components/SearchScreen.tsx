@@ -26,7 +26,7 @@ export default function SearchScreen({
 
     return (
         <div className='view-container'>
-            <h1>Find an Artist</h1>
+            <h2>Find an Artist</h2>
             <form onSubmit={handleSearch}>
                 <input 
                     type='text'

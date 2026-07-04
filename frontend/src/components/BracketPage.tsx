@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Bracket, Seed, SeedItem, SeedTeam, type IRenderSeedProps } from "react-brackets";
 import type { Artist, Track } from "../types";
 
@@ -18,7 +18,7 @@ export default function BracketPage({
     selectedArtist,
     bracketSongs, 
 }: BracketPageProps) {
-    const navigate = useNavigate();
+    const { artistName } = useParams();
 
     const [leftRounds, setLeftRounds] = useState<any[]>([]);
     const [rightRounds, setRightRounds] = useState<any[]>([]);
@@ -89,11 +89,6 @@ export default function BracketPage({
             setChampion(null);
         }
     }, [bracketSongs]);
-
-    const onStartOver = () => {
-        resetState();
-        navigate("/");
-    };
 
     const advanceSong = (
         songName: string, 
@@ -172,7 +167,15 @@ export default function BracketPage({
 
     return (
         <div className='view-container'>
-            <button onClick={onStartOver}>Start Over</button>
+            <div className="back-buttons-div" style={{ display: "flex", justifyContent: "center", marginBottom: "1rem", gap: "10px" }}>
+                <Link to={`/artist/${encodeURIComponent(artistName || "")}`} className="back-button">
+                    &larr; Back to Artist Options
+                </Link>
+
+                <Link to="/" onClick={resetState} className="back-button">
+                    &larr; Start Over
+                </Link>
+            </div>
             <h2>{selectedArtist?.name} - Madness Bracket</h2>
 
             <div className="bracket-layout">
