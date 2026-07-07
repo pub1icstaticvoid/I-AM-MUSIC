@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Artist, Track, Album } from './types';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { filterTracks, removeDupes } from './utils/trackFilters';
 import SearchScreen from './components/SearchScreen';
 import ArtistPage from './components/ArtistPage';
@@ -178,68 +178,68 @@ function App() {
   }
 
   return (
-    <>
-      <header
-        style={{ 
-          borderBottom: "5px solid var(--border)",
-          padding: "10px"
-         }}
-      >
+  <BrowserRouter>
+    <header
+      style={{ 
+        borderBottom: "5px solid var(--border)",
+        padding: "10px"
+        }}
+    >
+      <Link to='/' className='header-logo'>
         <h1>Sorted</h1>
-      </header>
+      </Link>
+    </header>
+    
+      <Routes>
+        <Route 
+          path='/' 
+          element={<SearchScreen 
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            handleSearch={handleSearch}
+            searchResults={searchResults}
+            setSelectedArtist={setselectedArtist}
+          />}
+        />
 
-      <BrowserRouter>
-        <Routes>
-          <Route 
-            path='/' 
-            element={<SearchScreen 
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              handleSearch={handleSearch}
-              searchResults={searchResults}
-              setSelectedArtist={setselectedArtist}
-            />}
-          />
+        <Route 
+          path='/artist/:artistName'
+          element={<ArtistPage 
+            selectedArtist={selectedArtist}
+            handleStartBracket={handleStartBracket}
+            handleStartBlindRank={handleStartBlindRank}
+            handleStartSoundsLike={handleStartSoundsLike}
+          />}
+        />
 
-          <Route 
-            path='/artist/:artistName'
-            element={<ArtistPage 
-              selectedArtist={selectedArtist}
-              handleStartBracket={handleStartBracket}
-              handleStartBlindRank={handleStartBlindRank}
-              handleStartSoundsLike={handleStartSoundsLike}
-            />}
-          />
+        <Route 
+          path='/bracket/:artistName'
+          element={<BracketPage 
+            resetState={resetState}
+            selectedArtist={selectedArtist}
+            bracketSongs={bracketSongs}
+          />}
+        />
 
-          <Route 
-            path='/bracket/:artistName'
-            element={<BracketPage 
-              resetState={resetState}
-              selectedArtist={selectedArtist}
-              bracketSongs={bracketSongs}
-            />}
-          />
-
-          <Route
-            path='/blind-rank/:artistName'
-            element={<BlindRankPage 
-              resetState={resetState}
-              selectedArtist={selectedArtist}
-              blindRankSongs={blindRankSongs}
-            />}
-          />
-          <Route
-            path='/sounds-like/:artistName'
-            element={<SoundsLikePage
-              resetState={resetState}
-              selectedArtist={selectedArtist}
-              gridAlbums={gridAlbums}
-              gridTracks={gridTracks}
-            />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
+        <Route
+          path='/blind-rank/:artistName'
+          element={<BlindRankPage 
+            resetState={resetState}
+            selectedArtist={selectedArtist}
+            blindRankSongs={blindRankSongs}
+          />}
+        />
+        <Route
+          path='/sounds-like/:artistName'
+          element={<SoundsLikePage
+            resetState={resetState}
+            selectedArtist={selectedArtist}
+            gridAlbums={gridAlbums}
+            gridTracks={gridTracks}
+          />}
+        />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

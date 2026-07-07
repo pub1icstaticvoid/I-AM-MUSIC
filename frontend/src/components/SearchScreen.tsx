@@ -27,14 +27,15 @@ export default function SearchScreen({
     return (
         <div className='view-container'>
             <h2>Find an Artist</h2>
-            <form onSubmit={handleSearch}>
+            <form className='artist-search' onSubmit={handleSearch}>
                 <input 
+                    className="artist-search-input"
                     type='text'
                     placeholder='Type an artist name...'
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button type='submit'>
+                <button className='artist-search-btn' type='submit'>
                     Search
                 </button>
             </form>
