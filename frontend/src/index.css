@@ -1,19 +1,21 @@
 :root {
-  --bg: #fdfdfc;
+  --bg: #fcfcfd;
   --bg-card: #ffffff;
-  --text: #504f4a;
-  --text-h: #1c1b18;
-  --border: #e8e6df;
-  --code-bg: #f4f2eb;
+  --text: #4a4b50;
+  --text-h: #18191c;
+  --border: #dfe0e8;
+  --code-bg: #e2e3eb;
   
-  --accent: #386641;
-  --accent-bg: rgba(56, 102, 65, 0.06);
-  --accent-border: rgba(56, 102, 65, 0.3);
+  --accent: #384b66;
+  --accent-bg: rgba(56, 70, 102, 0.06);
+  --accent-border: rgba(56, 60, 102, 0.3);
   
-  --social-bg: rgba(244, 242, 235, 0.5);
+  --social-bg: rgba(235, 235, 244, 0.5);
   --shadow: 
-    0 4px 20px -2px rgba(28, 27, 24, 0.04),
-    0 2px 8px -1px rgba(28, 27, 24, 0.02);
+    0 4px 20px -2px rgba(24, 24, 28, 0.04),
+    0 2px 8px -1px rgba(24, 25, 28, 0.02);
+  
+  --grid-select: #c9ccd8;
 
   --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --heading: 'Cabinet Grotesk', 'Arial Black', system-ui, sans-serif;
@@ -40,16 +42,18 @@
     --bg-card: #25252c;
     --text: #a1a1aa;
     --text-h: #f4f4f5;
-    --border: #34343a;
-    --code-bg: #18181b;
+    --border: #57575f;
+    --code-bg: #242428;
     
-    --accent: #527eb7;
-    --accent-bg: rgba(82, 109, 183, 0.15);
+    --accent: #6193d4;
+    --accent-bg: rgba(99, 130, 215, 0.203);
     --accent-border: rgba(82, 112, 183, 0.5);
     
     --social-bg: rgba(34, 34, 38, 0.5);
     --shadow:
       0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    
+    --grid-select: #30323e;
   }
 
   #social .button-icon {
