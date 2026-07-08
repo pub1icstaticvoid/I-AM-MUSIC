@@ -1,5 +1,6 @@
 :root {
   --bg: #fdfdfc;
+  --bg-card: #ffffff;
   --text: #504f4a;
   --text-h: #1c1b18;
   --border: #e8e6df;
@@ -36,9 +37,10 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0f0f11;
+    --bg-card: #25252c;
     --text: #a1a1aa;
     --text-h: #f4f4f5;
-    --border: #222226;
+    --border: #34343a;
     --code-bg: #18181b;
     
     --accent: #527eb7;

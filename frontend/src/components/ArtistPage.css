@@ -1,0 +1,41 @@
+.back-button {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    margin-bottom: 24px;
+    padding: 6px 12px;
+}
+
+.back-button:hover {
+    color: var(--text-h);
+}
+
+.back-button:active {
+    filter: brightness(0.9);
+}
+
+.options-grid button {
+    font: inherit;
+    font-size: 15px;
+    color: var(--text-h);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.options-grid button:not([disabled]):hover {
+    border-color: var(--accent);
+    background-color: var(--accent-border);
+}
+
+.options-grid button:not([disabled]):active {
+    filter: brightness(0.9);
+}
+
+.options-grid button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--code-bg);
+    color: var(--text);
+}

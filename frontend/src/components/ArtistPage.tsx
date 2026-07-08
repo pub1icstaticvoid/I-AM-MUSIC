@@ -1,5 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import type { Artist } from "../types";
+import "./ArtistPage.css";
 
 interface ArtistPageProps {
     selectedArtist: Artist | null;
