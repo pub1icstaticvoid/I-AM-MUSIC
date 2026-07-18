@@ -1,74 +1,20 @@
-# React + TypeScript + Vite
+# Sorted
+A dynamic, interactive music sorting and ranking app built with React, TypeScript, and Vite. Powered by the **last.fm API**.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[The app can be found here.](sorted-kei.pages.dev)
 
-Currently, two official plugins are available:
+## 🚀 Features
+- Madness Bracket: Pit 16 tracks against each other in a tournament tree until one track remains. Powered by `react-brackets`.
+- Blind Ranking: Rank 10 songs one by one without knowing what comes next.
+- "Is On/Sounds Like" Grid: A 5x5 Grid to map out songs that are from one album that sound like it's from other albums in an artist's discography.
+- last.fm Integration: Search for artists using last.fm's data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
+- **Frontend:** React 18+ (Vite)
+- **Language:** TypeScript
+- **Styling:** CSS
+- **Data Source:** last.fm API
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+## 🤝 Contributors
+- [pub1icstaticvoid](https://github.com/pub1icstaticvoid)
+- [pr1vatestaticfinal](https://github.com/pr1vatestaticfinal)
